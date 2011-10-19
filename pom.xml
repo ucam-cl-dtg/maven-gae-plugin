@@ -71,8 +71,8 @@
   </mailingLists>
 
   <issueManagement>
-    <system>Google Code</system>
-    <url>http://code.google.com/p/maven-gae-plugin/issues/list</url>
+    <system>Github</system>
+    <url>http://github.com/maven-gae-plugin/maven-gae-plugin/issues</url>
   </issueManagement>
 
   <properties>
@@ -150,9 +150,9 @@
   </profiles>
 
   <scm>
-    <connection>scm:svn:http://maven-gae-plugin.googlecode.com/svn/trunk</connection>
-    <developerConnection>scm:svn:https://maven-gae-plugin.googlecode.com/svn/trunk</developerConnection>
-    <url>http://code.google.com/p/maven-gae-plugin/source/browse/trunk</url>
+    <connection>scm:git:git@github.com:maven-gae-plugin/maven-gae-plugin.git</connection>
+    <developerConnection>scm:git:git@github.com:maven-gae-plugin/maven-gae-plugin.git</developerConnection>
+    <url>http://github.com/maven-gae-plugin/maven-gae-plugin</url>
   </scm>
 
   <repositories>
