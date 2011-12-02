@@ -106,37 +106,52 @@ public class UnpackGoal extends EngineGoalBase {
 
   public void execute() throws MojoExecutionException, MojoFailureException {
     try {
-
       unpackVersion = versionHeuristics();
 
       final Artifact sdkArtifact =
           factory.createArtifact(SDK_GROUPID, SDK_ARTIFACT_ID, unpackVersion,
               "", "zip");
-      artifactResolver.resolve(sdkArtifact, remoteRepos, localRepo);
-      final File sdkLocation = sdkArtifact.getFile().getParentFile();
+
       final File sdkDestination = new File(sdkDir);
-
       if (sdkDestination.exists()) {
-        getLog().info(String.format("Found %s %s.", sdkArtifact.getArtifactId(), sdkArtifact.getBaseVersion()));
-      } else {
-        getLog().info("Extracting GAE SDK file: " + sdkArtifact.getFile().getAbsolutePath());
-        getLog().info("To path: " + sdkLocation.getAbsolutePath());
+        getLog().info(String.format("Assuming %s %s at %s.", 
+            sdkArtifact.getArtifactId(), sdkArtifact.getBaseVersion(), sdkDestination.getAbsolutePath()));
 
-        final UnArchiver unArchiver = archiverManager.getUnArchiver(sdkArtifact.getFile());
-        unArchiver.setSourceFile(sdkArtifact.getFile());
-        unArchiver.setDestDirectory(sdkLocation);
-        unArchiver.extract();
+      } else {
+        final File sdkLocation = sdkArtifact.getFile().getParentFile();
+        getLog().info(String.format("Extracting GAE SDK %s to %s ", 
+            sdkArtifact.getFile().getAbsolutePath(), sdkLocation.getAbsolutePath()));
+        extractSDK(sdkArtifact, sdkLocation);
       }
+
     } catch (final ArtifactResolutionException e) {
-      getLog().error("can't resolve parent pom", e);
+      throw new MojoFailureException("can't resolve parent pom", e);
     } catch (final ArtifactNotFoundException e) {
-      getLog().error("can't resolve parent pom", e);
+      throw new MojoFailureException("can't resolve parent pom", e);
     } catch (final NoSuchArchiverException e) {
-      getLog().error("can't find archiver for the SDK download", e);
+      throw new MojoExecutionException("can't find archiver for the SDK download", e);
     } catch (final ArchiverException e) {
-      getLog().error("can't extract the SDK archive", e);
+      throw new MojoExecutionException("can't extract the SDK archive", e);
     }
 
+  }
+
+  /** Does the actual extraction.
+   * @param sdkArtifact
+   * @param sdkLocation
+   * @throws ArtifactResolutionException
+   * @throws ArtifactNotFoundException
+   * @throws NoSuchArchiverException
+   * @throws ArchiverException
+   */
+  void extractSDK(final Artifact sdkArtifact, final File sdkLocation)
+      throws ArtifactResolutionException, ArtifactNotFoundException,
+      NoSuchArchiverException, ArchiverException {
+    artifactResolver.resolve(sdkArtifact, remoteRepos, localRepo);
+    final UnArchiver unArchiver = archiverManager.getUnArchiver(sdkArtifact.getFile());
+    unArchiver.setSourceFile(sdkArtifact.getFile());
+    unArchiver.setDestDirectory(sdkLocation);
+    unArchiver.extract();
   }
 
   /** Attempts to guess the desired unpack version from the plugin's dependencies.
