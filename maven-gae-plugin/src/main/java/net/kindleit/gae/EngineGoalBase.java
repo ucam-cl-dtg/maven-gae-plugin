@@ -118,6 +118,12 @@ public abstract class EngineGoalBase extends AbstractMojo implements Contextuali
    * @parameter expression="${gae.server}"
    */
   protected String uploadServer;
+  
+  /** The app version. If defined, it overrides the application major version defined in the appengine-web.xml.
+   *
+   * @parameter expression="${gae.appVersion}"
+   */
+  protected String appVersion;
 
   /** Overrides the Host header sent with all RPCs.
    *
@@ -256,6 +262,7 @@ public abstract class EngineGoalBase extends AbstractMojo implements Contextuali
     final List<String> args = getCommonArgs();
 
     addEmailOption(args);
+    addStringOption(args, "--version=", appVersion);
     addStringOption(args, "--host=", hostString);
     addStringOption(args, "--compile_encoding=", encoding);
     addProxyOption(args);
