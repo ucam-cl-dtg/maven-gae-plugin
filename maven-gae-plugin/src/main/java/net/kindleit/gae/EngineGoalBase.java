@@ -17,6 +17,9 @@
  */
 package net.kindleit.gae;
 
+import static org.codehaus.plexus.util.StringUtils.isEmpty;
+import static org.codehaus.plexus.util.StringUtils.isNotEmpty;
+
 import java.io.*;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -48,7 +51,7 @@ public abstract class EngineGoalBase extends AbstractMojo implements Contextuali
   private static final String GAE_PROPS = "gae.properties";
 
   private static final String INTERRUPTED_EXCEPTION =
-    "Interrupted waiting for process supervisor thread to finish";
+      "Interrupted waiting for process supervisor thread to finish";
 
   protected static final String[] ARG_TYPE = new String[0];
 
@@ -84,10 +87,10 @@ public abstract class EngineGoalBase extends AbstractMojo implements Contextuali
   protected String appDir;
 
   /** Specifies where the Google App Engine SDK is located.
-  *
-  * @parameter expression="${gae.home}" default-value="${settings.localRepository}/com/google/appengine/appengine-java-sdk/${gae.version}/appengine-java-sdk-${gae.version}"
-  * @required
-  */
+   *
+   * @parameter expression="${gae.home}" default-value="${settings.localRepository}/com/google/appengine/appengine-java-sdk/${gae.version}/appengine-java-sdk-${gae.version}"
+   * @required
+   */
   protected String sdkDir;
 
   /** Split large jar files (> 10M) into smaller fragments.
@@ -118,10 +121,11 @@ public abstract class EngineGoalBase extends AbstractMojo implements Contextuali
    * @parameter expression="${gae.server}"
    */
   protected String uploadServer;
-  
-  /** The app version. If defined, it overrides the application major version defined in the appengine-web.xml.
-   *
+
+  /**
+   * The app version. If defined, it overrides the application major version defined in the appengine-web.xml.
    * @parameter expression="${gae.appVersion}"
+   * @since 0.9.3
    */
   protected String appVersion;
 
@@ -182,25 +186,26 @@ public abstract class EngineGoalBase extends AbstractMojo implements Contextuali
   }
 
 
+  @Override
   public void contextualize(final Context context) throws ContextException {
-      this.container = (PlexusContainer) context.get(PlexusConstants.PLEXUS_KEY);
+    container = (PlexusContainer) context.get(PlexusConstants.PLEXUS_KEY);
   }
 
   protected boolean hasServerSettings() {
-      if (serverId == null) {
-          return false;
-      } else {
-          final Server srv = settings.getServer(serverId);
-          return srv != null;
-      }
+    if (isEmpty(serverId)) {
+      return false;
+    } else {
+      final Server srv = settings.getServer(serverId);
+      return srv != null;
+    }
   }
 
   /** Passes command to the Google App Engine AppCfg runner.
-  *
-  * @param command command to run through AppCfg
-  * @param commandArguments arguments to the AppCfg command.
+   *
+   * @param command command to run through AppCfg
+   * @param commandArguments arguments to the AppCfg command.
    * @throws MojoExecutionException If {@link #assureSystemProperties()} fails
-  */
+   */
   protected final void runAppCfg(final String command,
       final String ... commandArguments) throws MojoExecutionException {
 
@@ -229,8 +234,8 @@ public abstract class EngineGoalBase extends AbstractMojo implements Contextuali
     // explicitly specify SDK root, as auto-discovery fails when
     // appengine-tools-api.jar is loaded from Maven repo, not SDK
     String sdk = System.getProperty("appengine.sdk.root");
-    if (sdk == null) {
-      if (sdkDir == null) {
+    if (isEmpty(sdk)) {
+      if (isEmpty(sdkDir)) {
         throw new MojoExecutionException(this, "${gae.home} property not set",
             gaeProperties.getProperty("home_undefined"));
       }
@@ -262,7 +267,9 @@ public abstract class EngineGoalBase extends AbstractMojo implements Contextuali
     final List<String> args = getCommonArgs();
 
     addEmailOption(args);
-    addStringOption(args, "--version=", appVersion);
+    if (isNotEmpty(appVersion)) {
+      addStringOption(args, "--version=", appVersion);
+    }
     addStringOption(args, "--host=", hostString);
     addStringOption(args, "--compile_encoding=", encoding);
     addProxyOption(args);
@@ -290,57 +297,58 @@ public abstract class EngineGoalBase extends AbstractMojo implements Contextuali
     // Parent for all threads created by AppCfg
     final ThreadGroup threads = new ThreadGroup("AppCfgThreadGroup");
 
-     // Main execution Thread that belong to ThreadGroup threads
+    // Main execution Thread that belong to ThreadGroup threads
     final Thread thread = new Thread(threads, "AppCfgMainThread") {
 
-        @Override
-        public void run() {
-            final PrintStream outOrig = System.out;
-            final InputStream inOrig = System.in;
+      @Override
+      public void run() {
+        final PrintStream outOrig = System.out;
+        final InputStream inOrig = System.in;
 
-            final PipedInputStream inReplace = new PipedInputStream();
-            OutputStream stdin;
-            try {
-              stdin = new PipedOutputStream(inReplace);
-            } catch (final IOException e) {
-                getLog().error("Unable to redirect input", e);
-                return;
-            }
-            System.setIn(inReplace);
-
-            final BufferedWriter stdinWriter = new BufferedWriter(new OutputStreamWriter(stdin));
-
-            System.setOut(new PrintStream(new PasswordExpectOutputStream(threads, outOrig, new Runnable() {
-              public void run() {
-                  try {
-                      stdinWriter.write(password);
-                      stdinWriter.newLine();
-                      stdinWriter.flush();
-                  } catch (final IOException e) {
-                      getLog().error("Unable to enter password", e);
-                  }
-              }}), true));
-
-            try {
-                AppCfg.main(args);
-            } catch (final Throwable e) {
-                getLog().error("Unable to execute AppCfg", e);
-            } finally {
-                System.setOut(outOrig);
-                System.setIn(inOrig);
-            }
+        final PipedInputStream inReplace = new PipedInputStream();
+        OutputStream stdin;
+        try {
+          stdin = new PipedOutputStream(inReplace);
+        } catch (final IOException e) {
+          getLog().error("Unable to redirect input", e);
+          return;
         }
+        System.setIn(inReplace);
+
+        final BufferedWriter stdinWriter = new BufferedWriter(new OutputStreamWriter(stdin));
+
+        System.setOut(new PrintStream(new PasswordExpectOutputStream(threads, outOrig, new Runnable() {
+          @Override
+          public void run() {
+            try {
+              stdinWriter.write(password);
+              stdinWriter.newLine();
+              stdinWriter.flush();
+            } catch (final IOException e) {
+              getLog().error("Unable to enter password", e);
+            }
+          }}), true));
+
+        try {
+          AppCfg.main(args);
+        } catch (final Throwable e) {
+          getLog().error("Unable to execute AppCfg", e);
+        } finally {
+          System.setOut(outOrig);
+          System.setIn(inOrig);
+        }
+      }
     };
     thread.start();
     try {
-        thread.join();
+      thread.join();
     } catch (final InterruptedException e) {
-        getLog().error(INTERRUPTED_EXCEPTION, e);
+      getLog().error(INTERRUPTED_EXCEPTION, e);
     }
   }
 
   private String decryptPassword(final String password) {
-    if (password != null) {
+    if (isNotEmpty(password)) {
       try {
         final Class<?> securityDispatcherClass = container.getClass()
             .getClassLoader().loadClass(SECURITY_DISPATCHER_CLASS_NAME);
@@ -361,26 +369,26 @@ public abstract class EngineGoalBase extends AbstractMojo implements Contextuali
 
   private void addEmailOption(final List<String> args) {
     if (hasServerSettings() && emailAccount == null) {
-        addStringOption(args, "--email=",
-            settings.getServer(serverId).getUsername());
-        if (settings.getServer(serverId).getPassword() != null) {
-            // Force GAE tools to read from System.in instead of System.console()
-            passIn = true;
-        }
+      addStringOption(args, "--email=",
+          settings.getServer(serverId).getUsername());
+      if (settings.getServer(serverId).getPassword() != null) {
+        // Force GAE tools to read from System.in instead of System.console()
+        passIn = true;
+      }
     } else {
-        addStringOption(args, "--email=", emailAccount);
+      addStringOption(args, "--email=", emailAccount);
     }
   }
 
   private void addProxyOption(final List<String> args) {
-    if (hasServerSettings() && proxy == null) {
-        final Proxy activCfgProxy = settings.getActiveProxy();
-        if (activCfgProxy != null) {
-            addStringOption(args, "--proxy=",
-                activCfgProxy.getHost() + ":" + activCfgProxy.getPort());
-        }
-    } else {
-        addStringOption(args, "--proxy=", proxy);
+    if (isNotEmpty(proxy)) {
+      addStringOption(args, "--proxy=", proxy);
+    } else if (hasServerSettings()) {
+      final Proxy activCfgProxy = settings.getActiveProxy();
+      if (activCfgProxy != null) {
+        addStringOption(args, "--proxy=",
+            activCfgProxy.getHost() + ":" + activCfgProxy.getPort());
+      }
     }
   }
 
@@ -393,7 +401,7 @@ public abstract class EngineGoalBase extends AbstractMojo implements Contextuali
 
   private final void addStringOption(final List<String> args, final String key,
       final String var) {
-    if (var != null && var.length() > 0) {
+    if (isNotEmpty(var)) {
       args.add(key + var);
     }
   }
