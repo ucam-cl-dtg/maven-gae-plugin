@@ -104,6 +104,7 @@ public class UnpackGoal extends EngineGoalBase {
    */
   protected String unpackVersion;
 
+  @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
     try {
       unpackVersion = versionHeuristics();
@@ -114,14 +115,11 @@ public class UnpackGoal extends EngineGoalBase {
 
       final File sdkDestination = new File(sdkDir);
       if (sdkDestination.exists()) {
-        getLog().info(String.format("Assuming %s %s at %s.", 
+        getLog().info(String.format("Assuming %s %s at %s.",
             sdkArtifact.getArtifactId(), sdkArtifact.getBaseVersion(), sdkDestination.getAbsolutePath()));
 
       } else {
-        final File sdkLocation = sdkArtifact.getFile().getParentFile();
-        getLog().info(String.format("Extracting GAE SDK %s to %s ", 
-            sdkArtifact.getFile().getAbsolutePath(), sdkLocation.getAbsolutePath()));
-        extractSDK(sdkArtifact, sdkLocation);
+        extractSDK(sdkArtifact);
       }
 
     } catch (final ArtifactResolutionException e) {
@@ -144,10 +142,13 @@ public class UnpackGoal extends EngineGoalBase {
    * @throws NoSuchArchiverException
    * @throws ArchiverException
    */
-  void extractSDK(final Artifact sdkArtifact, final File sdkLocation)
+  void extractSDK(final Artifact sdkArtifact)
       throws ArtifactResolutionException, ArtifactNotFoundException,
       NoSuchArchiverException, ArchiverException {
     artifactResolver.resolve(sdkArtifact, remoteRepos, localRepo);
+    final File sdkLocation = sdkArtifact.getFile().getParentFile();
+    getLog().info(String.format("Extracting GAE SDK %s to %s ",
+        sdkArtifact.getFile().getAbsolutePath(), sdkLocation.getAbsolutePath()));
     final UnArchiver unArchiver = archiverManager.getUnArchiver(sdkArtifact.getFile());
     unArchiver.setSourceFile(sdkArtifact.getFile());
     unArchiver.setDestDirectory(sdkLocation);
@@ -163,7 +164,7 @@ public class UnpackGoal extends EngineGoalBase {
     if (unpackVersion == null || unpackVersion.isEmpty()) {
       for (final Artifact pa : pluginArtifacts) {
         if (APPENGINE_API_GROUPID.equals(pa.getGroupId())
-        && APPENGINE_API_ARTIFACTID.equals(pa.getArtifactId())) {
+            && APPENGINE_API_ARTIFACTID.equals(pa.getArtifactId())) {
           return pa.getVersion();
         }
       }

@@ -28,7 +28,7 @@
     <dependency>
       <groupId>net.kindleit</groupId>
       <artifactId>gae-runtime</artifactId>
-      <version>1.5.2</version>
+      <version>[1.6.1,)</version>
       <type>pom</type>
       <optional>true</optional>
     </dependency>
@@ -36,7 +36,7 @@
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-archiver</artifactId>
-      <version>1.0-alpha-11</version>
+      <version>[1.2,3.0)</version>
       <exclusions>
         <exclusion>
           <groupId>org.codehaus.plexus</groupId>
@@ -52,7 +52,7 @@
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-utils</artifactId>
-      <version>1.5.1</version>
+      <version>[1.5.1,4.0)</version>
     </dependency>
 
     <dependency>
