@@ -30,7 +30,6 @@
       <artifactId>gae-runtime</artifactId>
       <version>[1.6.1,)</version>
       <type>pom</type>
-      <optional>true</optional>
     </dependency>
 
     <dependency>
