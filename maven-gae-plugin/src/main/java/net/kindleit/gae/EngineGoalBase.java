@@ -123,6 +123,13 @@ public abstract class EngineGoalBase extends AbstractMojo implements Contextuali
   protected String uploadServer;
 
   /**
+   * The app id. If defined, it overrides the application name defined in the appengine-web.xml.
+   * @parameter expression="${gae.appId}"
+   * @since 0.9.4
+   */
+  protected String appId;
+  
+  /**
    * The app version. If defined, it overrides the application major version defined in the appengine-web.xml.
    * @parameter expression="${gae.appVersion}"
    * @since 0.9.3
@@ -267,9 +274,8 @@ public abstract class EngineGoalBase extends AbstractMojo implements Contextuali
     final List<String> args = getCommonArgs();
 
     addEmailOption(args);
-    if (isNotEmpty(appVersion)) {
-      addStringOption(args, "--version=", appVersion);
-    }
+    addStringOption(args, "--application=", appId);
+    addStringOption(args, "--version=", appVersion);
     addStringOption(args, "--host=", hostString);
     addStringOption(args, "--compile_encoding=", encoding);
     addProxyOption(args);
