@@ -125,7 +125,7 @@ public abstract class EngineGoalBase extends AbstractMojo implements Contextuali
   /**
    * The app id. If defined, it overrides the application name defined in the appengine-web.xml.
    * @parameter expression="${gae.appId}"
-   * @since 0.9.4
+   * @since 0.9.3
    */
   protected String appId;
   
