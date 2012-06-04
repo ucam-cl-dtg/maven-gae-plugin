@@ -128,7 +128,7 @@ public abstract class EngineGoalBase extends AbstractMojo implements Contextuali
    * @since 0.9.3
    */
   protected String appId;
-  
+
   /**
    * The app version. If defined, it overrides the application major version defined in the appengine-web.xml.
    * @parameter expression="${gae.appVersion}"
@@ -181,6 +181,12 @@ public abstract class EngineGoalBase extends AbstractMojo implements Contextuali
    */
   protected String monitorKey;
 
+  /** Arbitrary list of Goal Arguments to pass along to the app engine task.
+   * @since 0.9.4
+   * @parameter
+   */
+  protected List<String> goalArguments;
+
   protected Properties gaeProperties;
 
   public EngineGoalBase() {
@@ -211,7 +217,7 @@ public abstract class EngineGoalBase extends AbstractMojo implements Contextuali
    *
    * @param command command to run through AppCfg
    * @param commandArguments arguments to the AppCfg command.
-   * @throws MojoExecutionException If {@link #assureSystemProperties()} fails
+   * @throws MojoExecutionException If {@link #ensureSystemProperties()} fails
    */
   protected final void runAppCfg(final String command,
       final String ... commandArguments) throws MojoExecutionException {
@@ -220,7 +226,10 @@ public abstract class EngineGoalBase extends AbstractMojo implements Contextuali
     args.addAll(getAppCfgArgs());
     args.add(command);
     args.addAll(Arrays.asList(commandArguments));
-    assureSystemProperties();
+    if (goalArguments != null) {
+      args.addAll(goalArguments);
+    }
+    ensureSystemProperties();
 
     getLog().debug("execute AppCfg " + args.toString());
 
@@ -237,7 +246,7 @@ public abstract class EngineGoalBase extends AbstractMojo implements Contextuali
   /** Groups alterations to System properties for the proper execution
    * of the actual GAE code.
    * @throws MojoExecutionException When the gae.home variable cannot be set. */
-  protected void assureSystemProperties() throws MojoExecutionException {
+  protected void ensureSystemProperties() throws MojoExecutionException {
     // explicitly specify SDK root, as auto-discovery fails when
     // appengine-tools-api.jar is loaded from Maven repo, not SDK
     String sdk = System.getProperty("appengine.sdk.root");

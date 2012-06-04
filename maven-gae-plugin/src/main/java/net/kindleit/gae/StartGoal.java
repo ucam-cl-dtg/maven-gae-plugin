@@ -107,6 +107,7 @@ public class StartGoal extends EngineGoalBase {
    */
   protected String javaAgent;
 
+  @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
     final List<String> arguments = new ArrayList<String>();
 
@@ -114,6 +115,9 @@ public class StartGoal extends EngineGoalBase {
     arguments.add("--port=" + port);
     if (disableUpdateCheck) {
       arguments.add("--disable_update_check");
+    }
+    if (goalArguments != null) {
+      arguments.addAll(goalArguments);
     }
     if(javaAgent != null) {
       arguments.add("--jvm_flag=-noverify");
@@ -131,32 +135,32 @@ public class StartGoal extends EngineGoalBase {
   }
 
   /** Passes command to the Google App Engine KickStart runner.
-  *
-  * @param startClass command to run through KickStart
-  * @param commandArguments arguments to the KickStart command.
-  * @throws MojoExecutionException If {@link #assureSystemProperties()} fails
-  */
+   *
+   * @param startClass command to run through KickStart
+   * @param commandArguments arguments to the KickStart command.
+   * @throws MojoExecutionException If {@link #ensureSystemProperties()} fails
+   */
   protected final void runKickStart(final String startClass,
-    final String ... commandArguments) throws MojoExecutionException {
+      final String ... commandArguments) throws MojoExecutionException {
 
     final List<String> args = new ArrayList<String>();
     args.add(startClass);
     args.addAll(getCommonArgs());
     args.addAll(Arrays.asList(commandArguments));
 
-    assureSystemProperties();
+    ensureSystemProperties();
 
     try {
       resolveArtifacts(plugins);
       KickStartRunner.createRunner(wait, plugins, gaeProperties, getLog())
-        .start(monitorPort, monitorKey, args);
+      .start(monitorPort, monitorKey, args);
     } catch (final Exception e) {
       throw new MojoExecutionException(e.getMessage(), e);
     }
   }
 
   protected final void resolveArtifacts(final Set<Artifact> artifacts)
-  throws MojoExecutionException {
+      throws MojoExecutionException {
     for (final Artifact pluginA : artifacts) {
       try {
         resolver.resolve(pluginA, remoteRepos, localRepo);

@@ -42,7 +42,7 @@ public abstract class BackendGoalBase extends EngineGoalBase {
   /** Passes a backend command to the Google App Engine AppCfg runner.
   *
   * @param command command to run through AppCfg
-   * @throws MojoExecutionException If {@link #assureSystemProperties()} fails
+   * @throws MojoExecutionException If {@link #ensureSystemProperties()} fails
   */
   protected final void runBackend(final String command) throws MojoExecutionException {
     if (isEmpty(command))
