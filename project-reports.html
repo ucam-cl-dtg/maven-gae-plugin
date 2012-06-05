@@ -3,11 +3,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-    <title>Maven GAE Plugin - How-To configure maven with your gae account and password</title>
+    <title>Maven GAE Plugin - Generated Reports</title>
     <style type="text/css" media="all">
-      @import url("../css/maven-base.css");
-      @import url("../css/maven-theme.css");
-      @import url("../css/site.css");
+      @import url("./css/maven-base.css");
+      @import url("./css/maven-theme.css");
+      @import url("./css/site.css");
     </style>
     <script type="text/javascript">
 	var _gaq = _gaq || [];
@@ -20,7 +20,7 @@
 		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 	})();
     </script>
-    <link rel="stylesheet" href="../css/print.css" type="text/css" media="print" />
+    <link rel="stylesheet" href="./css/print.css" type="text/css" media="print" />
     <meta http-equiv="Content-Language" content="en" />
         $headContent
         </head>
@@ -32,9 +32,9 @@
 	</div>
     <div id="banner">
                     <div id="bannerLeft">
-                Maven GAE Parent POM
+                Maven GAE Plugin
                 </div>
-                                            <a href="../index.html" id="bannerRight">
+                                            <a href="index.html" id="bannerRight">
                                                 <img src="../images/maven-gae-plugin-logo-small.png" alt="Maven GAE Plugin" />
                 </a>
             <div class="clear">
@@ -75,7 +75,7 @@
                           <a href="http://code.google.com/p/maven-gae-plugin" class="externalLink" title="Google Code">Google Code</a>
             </li>
                   <li class="none">
-                          <a href="../maven-gae-plugin/plugin-info.html" title="Plugin Goals">Plugin Goals</a>
+                          <a href="plugin-info.html" title="Plugin Goals">Plugin Goals</a>
             </li>
                   <li class="none">
                           <a href="../usage.html" title="Usage">Usage</a>
@@ -119,9 +119,23 @@
           </ul>
                        <h5>Project Documentation</h5>
                   <ul>
-                                                                                                                                                                                                                                                        <li class="collapsed">
-                          <a href="../project-info.html" title="Project Information">Project Information</a>
+                                                                                                                                                                                                                                                                          <li class="collapsed">
+                          <a href="project-info.html" title="Project Information">Project Information</a>
                   </li>
+                                                                                                            <li class="expanded">
+            <strong>Project Reports</strong>
+                  <ul>
+                      <li class="none">
+                          <a href="changelog.html" title="Change Log">Change Log</a>
+            </li>
+                      <li class="none">
+                          <a href="dev-activity.html" title="Developer Activity">Developer Activity</a>
+            </li>
+                      <li class="none">
+                          <a href="plugin-info.html" title="Plugin Documentation">Plugin Documentation</a>
+            </li>
+              </ul>
+        </li>
           </ul>
                                                                                                                    <a href="http://maven.apache.org" title="Built By Maven" class="poweredBy">
         <img class="poweredBy"  alt="Built By Maven" src="http://maven.apache.org/images/logos/maven-feather.png"    />
@@ -135,53 +149,22 @@
     </div>
     <div id="bodyColumn">
       <div id="contentBox">
-        <div class="section"><h2>Configure Email and password in your local settings.xml</h2>
-<div class="section"><h3>Using maven settings.</h3>
-<p>You need to add this as <i>server</i> in your $home/.m2/settings.xml</p>
-<p>Here is example:</p>
-<div class="source"><pre>&lt;settings&gt;
-
-    &lt;servers&gt;
-        ....
-        &lt;server&gt;
-            &lt;id&gt;appengine.google.com&lt;/id&gt;
-            &lt;username&gt;MyEmail@gmail.com&lt;/username&gt;
-            &lt;password&gt;MyPassword&lt;/password&gt;
-        &lt;/server&gt;
-
-    &lt;/servers&gt;
-
-    &lt;profiles&gt;
-        ....
-    &lt;/profiles&gt;
-&lt;/settings&gt;</pre>
-</div>
-</div>
-<div class="section"><h3>Project pom changes.</h3>
-<p>Add the reference to server id.</p>
-<div class="source"><pre>&lt;project&gt;
-    [...]
-    &lt;build&gt;
-        &lt;plugins&gt;
-            [...]
-            &lt;plugin&gt;
-                &lt;groupId&gt;net.kindleit&lt;/groupId&gt;
-                &lt;artifactId&gt;maven-gae-plugin&lt;/artifactId&gt;
-                &lt;version&gt;[plugin version]&lt;/version&gt;
-                &lt;configuration&gt;
-                    &lt;serverId&gt;appengine.google.com&lt;/serverId&gt;
-                    &lt;sdkDir&gt;${appengine.sdk.root}&lt;/sdkDir&gt;
-                    &lt;appDir&gt;${basedir}/war&lt;/appDir&gt;
-                &lt;/configuration&gt;
-            &lt;/plugin&gt;
-        &lt;/plugins&gt;
-    &lt;/build&gt;
-    [...]
-&lt;/project&gt;</pre>
-</div>
-</div>
-<div class="section"><h3>Password Encryption</h3>
-<p>It is recommented to have passwords in settings.xml encrypted. See how to do this <a class="externalLink" href="http://maven.apache.org/guides/mini/guide-encryption.html">Maven Password Encryption guide</a></p>
+        <div class="section"><h2>Generated Reports</h2>
+<p>This document provides an overview of the various reports that are automatically generated by <a href="http://maven.apache.org" class="externalLink">Maven</a> Each report is briefly described below.</p>
+<div class="section"><h3>Overview</h3>
+<table class="bodyTable"><tr class="a"><th>Document</th>
+<th>Description</th>
+</tr>
+<tr class="b"><td><a href="changelog.html">Change Log</a></td>
+<td>Generated change log report from SCM.</td>
+</tr>
+<tr class="a"><td><a href="dev-activity.html">Developer Activity</a></td>
+<td>Generated developer activity report from SCM.</td>
+</tr>
+<tr class="b"><td><a href="plugin-info.html">Plugin Documentation</a></td>
+<td>This report provides goals and parameters documentation of a plugin.</td>
+</tr>
+</table>
 </div>
 </div>
 
