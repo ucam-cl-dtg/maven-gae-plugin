@@ -9,5 +9,7 @@ xsi:schemaLocation="http://appengine.google.com/ns/1.0 http://googleappengine.go
     </system-properties>
 
     <sessions-enabled>true</sessions-enabled>
+	
+	<threadsafe>true</threadsafe>
 
 </appengine-web-app>
