@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>Source Repository</title>
+    <title>
+    gae:stop</title>
     <style type="text/css" media="all">
       @import url("./css/maven-base.css");
       @import url("./css/maven-theme.css");
@@ -120,50 +121,9 @@
           </ul>
                        <h5>Project Documentation</h5>
                   <ul>
-                                                                                                                                                                                                                                                                                                      <li class="expanded">
+                                                                                                                                                                                                                                                                                            <li class="collapsed">
                           <a href="project-info.html" title="Project Information">Project Information</a>
-                    <ul>
-                      <li class="none">
-                          <a href="distribution-management.html" title="Distribution Management">Distribution Management</a>
-            </li>
-                      <li class="none">
-                          <a href="index.html" title="About">About</a>
-            </li>
-                      <li class="none">
-                          <a href="dependencies.html" title="Dependencies">Dependencies</a>
-            </li>
-                      <li class="none">
-                          <a href="issue-tracking.html" title="Issue Tracking">Issue Tracking</a>
-            </li>
-                      <li class="none">
-                          <a href="plugins.html" title="Project Plugins">Project Plugins</a>
-            </li>
-                      <li class="none">
-                          <a href="integration.html" title="Continuous Integration">Continuous Integration</a>
-            </li>
-                      <li class="none">
-                          <a href="license.html" title="Project License">Project License</a>
-            </li>
-                      <li class="none">
-                          <a href="mail-lists.html" title="Mailing Lists">Mailing Lists</a>
-            </li>
-                      <li class="none">
-                          <a href="team-list.html" title="Project Team">Project Team</a>
-            </li>
-                      <li class="none">
-                          <a href="dependency-convergence.html" title="Dependency Convergence">Dependency Convergence</a>
-            </li>
-                      <li class="none">
-            <strong>Source Repository</strong>
-          </li>
-                      <li class="none">
-                          <a href="plugin-management.html" title="Plugin Management">Plugin Management</a>
-            </li>
-                      <li class="none">
-                          <a href="project-summary.html" title="Project Summary">Project Summary</a>
-            </li>
-              </ul>
-        </li>
+                  </li>
                                                                                                         <li class="collapsed">
                           <a href="project-reports.html" title="Project Reports">Project Reports</a>
                   </li>
@@ -180,7 +140,65 @@
     </div>
     <div id="bodyColumn">
       <div id="contentBox">
-        <div class="section"><h2>Overview<a name="Overview"></a></h2><a name="Overview"></a><p>This project uses a Source Content Management System to manage its source code.</p></div><div class="section"><h2>Web Access<a name="Web_Access"></a></h2><a name="Web_Access"></a><p>The following is a link to the online source repository.</p><div class="source"><pre><a class="externalLink" href="http://github.com/maven-gae-plugin/maven-gae-plugin/maven-gae-plugin">http://github.com/maven-gae-plugin/maven-gae-plugin/maven-gae-plugin</a></pre></div></div><div class="section"><h2>Anonymous access<a name="Anonymous_access"></a></h2><a name="Anonymous_access"></a><p>Refer to the documentation of the SCM used for more information about anonymously check out. The connection url is:</p><div class="source"><pre>git:git@github.com:maven-gae-plugin/maven-gae-plugin.git/maven-gae-plugin</pre></div></div><div class="section"><h2>Developer access<a name="Developer_access"></a></h2><a name="Developer_access"></a><p>Refer to the documentation of the SCM used for more information about developer check out. The connection url is:</p><div class="source"><pre>git:git@github.com:maven-gae-plugin/maven-gae-plugin.git/maven-gae-plugin</pre></div></div><div class="section"><h2>Access from behind a firewall<a name="Access_from_behind_a_firewall"></a></h2><a name="Access_from_behind_a_firewall"></a><p>Refer to the documentation of the SCM used for more information about access behind a firewall.</p></div>
+        
+  
+    <div class="section"><h2>gae:stop<a name="gae:stop"></a></h2>
+      <p><b>Full name</b>:</p>
+      <p>net.kindleit:maven-gae-plugin:0.9.4-SNAPSHOT:stop</p>
+      <p><b>Description</b>:</p>
+      <div>Stops a running instance of the Google App Engine development
+server. This is intended to be included in your project's POM and
+runs in the post-integration-test phase.</div>
+      <p><b>Attributes</b>:</p>
+      <ul>
+        <li>Requires a Maven project to be executed.</li>
+        <li>Since version: <tt>0.5.8</tt>.</li>
+        <li>Binds by default to the lifecycle phase: <tt>post-integration-test</tt>.</li>
+      </ul>
+      <div class="section"><h3>Required Parameters<a name="Required_Parameters"></a></h3>
+        <table class="bodyTable" border="0">
+          <tr class="a">
+            <th>Name</th>
+            <th>Type</th>
+            <th>Since</th>
+            <th>Description</th>
+          </tr>
+          <tr class="b">
+            <td><b><a href="#monitorKey">monitorKey</a></b></td>
+            <td><tt>String</tt></td>
+            <td><tt>0.5.8</tt></td>
+            <td>Key to provide when making stop requests.<br /><b>Default value is</b>: <tt>monitor.${project.artifactId}</tt>.</td>
+          </tr>
+          <tr class="a">
+            <td><b><a href="#monitorPort">monitorPort</a></b></td>
+            <td><tt>int</tt></td>
+            <td><tt>0.5.8</tt></td>
+            <td>Port to listen for stop requests on.<br /><b>Default value is</b>: <tt>8081</tt>.</td>
+          </tr>
+        </table>
+      </div>
+      <div class="section"><h3>Parameter Details<a name="Parameter_Details"></a></h3>
+        <p><b><a name="monitorKey">monitorKey</a>:</b></p>
+        <div>Key to provide when making stop requests.</div>
+        <ul>
+          <li><b>Type</b>: <tt>java.lang.String</tt></li>
+          <li><b>Since</b>: <tt>0.5.8</tt></li>
+          <li><b>Required</b>: <tt>Yes</tt></li>
+          <li><b>Expression</b>: <tt>${gae.monitor.key}</tt></li>
+          <li><b>Default</b>: <tt>monitor.${project.artifactId}</tt></li>
+        </ul><hr /><p><b><a name="monitorPort">monitorPort</a>:</b></p>
+        <div>Port to listen for stop requests on.</div>
+        <ul>
+          <li><b>Type</b>: <tt>int</tt></li>
+          <li><b>Since</b>: <tt>0.5.8</tt></li>
+          <li><b>Required</b>: <tt>Yes</tt></li>
+          <li><b>Expression</b>: <tt>${gae.monitor.port}</tt></li>
+          <li><b>Default</b>: <tt>8081</tt></li>
+        </ul>
+      </div>
+    </div>
+  
+
       </div>
     </div>
     <div class="clear">
