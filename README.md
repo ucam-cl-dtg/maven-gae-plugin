@@ -96,4 +96,4 @@ You can also find the following archetypes for your applications:
 Source
 ------
 
-Soure is kept in [github](https://github.com/maven-gae-plugin/maven-gae-plugin).
+Source is kept in [github](https://github.com/maven-gae-plugin/maven-gae-plugin).
