@@ -73,24 +73,24 @@ Boilerplate / Archetypes
 You can also find the following archetypes for your applications:
  * Plain JSP based example: 
 
-    mvn archetype:generate -DarchetypeGroupId=net.kindleit -DarchetypeArtifactId=gae-archetype-jsp -DarchetypeVersion=0.9.0 \
-        -DgroupId=com.myapp.test -DartifactId=testapp
+        mvn archetype:generate -DarchetypeGroupId=net.kindleit -DarchetypeArtifactId=gae-archetype-jsp \
+        -DarchetypeVersion=0.9.4 -DgroupId=com.myapp.test -DartifactId=testapp
 
  * Wicket based example
 
-    mvn archetype:generate -DarchetypeGroupId=net.kindleit -DarchetypeArtifactId=gae-archetype-wicket -DarchetypeVersion=0.9.0 \
-        -DgroupId=com.myapp.test -DartifactId=testapp
+        mvn archetype:generate -DarchetypeGroupId=net.kindleit -DarchetypeArtifactId=gae-archetype-wicket \
+        -DarchetypeVersion=0.9.4 -DgroupId=com.myapp.test -DartifactId=testapp
 
  * GWT based example
 
-    mvn archetype:generate -DarchetypeGroupId=net.kindleit -DarchetypeArtifactId=gae-archetype-gwt -DarchetypeVersion=0.9.0 \
-        -DgroupId=com.myapp.test -DartifactId=testapp
+        mvn archetype:generate -DarchetypeGroupId=net.kindleit -DarchetypeArtifactId=gae-archetype-gwt \
+        -DarchetypeVersion=0.9.4 -DgroupId=com.myapp.test -DartifactId=testapp
 
 
  * JSF based example
 
-    mvn archetype:generate -DarchetypeGroupId=net.kindleit -DarchetypeArtifactId=gae-archetype-jsf -DarchetypeVersion=0.9.0 \
-        -DgroupId=com.myapp.test -DartifactId=testapp
+        mvn archetype:generate -DarchetypeGroupId=net.kindleit -DarchetypeArtifactId=gae-archetype-jsf \
+        -DarchetypeVersion=0.9.4 -DgroupId=com.myapp.test -DartifactId=testapp
 
 
 Source
