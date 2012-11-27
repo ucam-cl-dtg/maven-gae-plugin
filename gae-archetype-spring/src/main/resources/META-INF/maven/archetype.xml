@@ -2,11 +2,11 @@
 <archetype>
   <id>gae-archetype-spring</id>
   <sources>
-    <source>src/main/java/HomePage.java</source>
-    <source>src/main/java/GaeWicketApplication.java</source>
+    <source>src/main/java/config/MvcConfiguration.java</source>
+    <source>src/main/java/controller/HomeController.java</source>
   </sources>
   <resources>
-    <resource>src/main/resources/HomePage.html</resource>
+    <resource>src/main/webapp/WEB-INF/views/home.jsp</resource>
     <resource>src/main/webapp/WEB-INF/appengine-web.xml</resource>
     <resource>src/main/webapp/WEB-INF/web.xml</resource>
     <resource>src/main/resources/logging.properties</resource>
